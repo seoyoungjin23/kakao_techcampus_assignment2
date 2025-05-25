@@ -1,6 +1,6 @@
 # **카카오테크 캠퍼스 2차 과제**
 
-## ** API **
+## **API**
 
 | 기능         | Method   | URL                           |
 | ---------- | -------- | ----------------------------- |
@@ -10,8 +10,12 @@
 | 일정 수정      | `PUT`    | `/api/schedules/{scheduleId}` |
 | 일정 삭제      | `DELETE` | `/api/schedules/{scheduleId}` |
 
-## ** ERD ** 
+## **ERD** 
+### LV1~2
 ![img.png](img.png)
+
+### LV3~
+![img_2.png](img_1.png)
 
 ---
 # **일정 생성**
@@ -20,11 +24,12 @@
 
 ### Body
 
-| Name | Type | Mandatory | Description |
-| --- | --- | --- | --- |
-| todo | string | ✅ | 할 일 |
-| author | string | ✅ | 작성자 |
-| password | string | ✅ | 비밀번호 |
+| Name    | Type | Mandatory | Description |
+|---------| --- | --- |------------|
+| todo    | string | ✅ | 할 일        |
+| author  | string | ✅ | 작성자        |
+| email   | string | ✅ | 이메일        |
+| password | string | ✅ | 비밀번호       |
 
 - **JSON**
 
@@ -32,6 +37,7 @@
     {
       "todo": "String",
       "author": "String",
+      "email": "String",
       "password": "String" 
     }
     ```
@@ -43,9 +49,12 @@
 - **JSON**
 
     ```json
-    {
+    {	
+      "schedule_id": "Long",
+      "user_id": "Long",
       "todo": "String",
       "author": "String",
+      "email": "String",
       "created_at": "LocalDate",
       "updated_at": "LocalDate"
     }
@@ -80,8 +89,10 @@
     ```json
     {	
       "schedule_id": "Long",
+      "user_id": "Long",
       "todo": "String",
       "author": "String",
+      "email": "String",
       "created_at": "LocalDate",
       "updated_at": "LocalDate"
     }
@@ -102,10 +113,10 @@
 
 ### Query Parameter
 
-| Name | Type | Mandatory | Description |
-| --- | --- | --- | --- |
+| Name      | Type  | Mandatory | Description          |
+|-----------|-------| --- |----------------------|
 | updated_at | string | ❌ | 수정일 (형식: YYYY-MM-DD) |
-| author | string | ❌ | 작성자명 |
+| userId    | Long  | ❌ | 유저 고유 Id             |
 
 → 두 조건이 모두 들어오지 않을 시 전체를 조회한다.
 
@@ -119,15 +130,19 @@
     [
         {	
           "schedule_id": "Long",
+          "user_id": "Long",
           "todo": "String",
           "author": "String",
+          "email": "String",
           "created_at": "LocalDate",
           "updated_at": "LocalDate"
         },
         {	
           "schedule_id": "Long",
+          "user_id": "Long",
           "todo": "String",
           "author": "String",
+          "email": "String",
           "created_at": "LocalDate",
           "updated_at": "LocalDate"
         }
@@ -155,10 +170,11 @@
 ### Body
 
 | Name | Type | Mandatory | Description |
-| --- | --- | --- | --- |
-| todo | string | ✅ | 수정한 할 일 |
-| author | string | ✅ | 수정한 작성자 |
-| password | string | ✅ | 비밀번호 |
+| --- | --- | --- |-------------|
+| todo | string | ✅ | 수정한 할 일     |
+| author | string | ✅ | 수정한 작성자     |
+| email   | string | ✅ | 수정한 이메일     |
+| password | string | ✅ | 비밀번호        |
 
 - **JSON**
 
@@ -166,6 +182,7 @@
     {
       "todo": "String",
       "author": "String",
+      "email": "String",
       "password": "String"
     }
     ```
@@ -177,9 +194,12 @@
 - **JSON**
 
     ```json
-    {
+    {	
+      "schedule_id": "Long",
+      "user_id": "Long",
       "todo": "String",
       "author": "String",
+      "email": "String",
       "created_at": "LocalDate",
       "updated_at": "LocalDate"
     }
