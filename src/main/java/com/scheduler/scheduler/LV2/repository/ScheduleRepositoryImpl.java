@@ -28,7 +28,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
     public Schedule save(Schedule schedule) {
         SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("schedule")
-                .usingGeneratedKeyColumns("schedule_id");
+                .usingGeneratedKeyColumns("schedule_id")
+                .usingColumns("todo", "author", "password", "created_at", "updated_at");
 
         Map<String, Object> data = new HashMap<>();
         data.put("todo", schedule.getTodo());
