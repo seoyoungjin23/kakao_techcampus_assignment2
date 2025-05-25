@@ -3,9 +3,12 @@ package com.scheduler.scheduler.LV3.service;
 import com.scheduler.scheduler.LV3.dto.ScheduleRequestDto;
 import com.scheduler.scheduler.LV3.dto.ScheduleResponseDto;
 import com.scheduler.scheduler.LV3.entity.Schedule;
+import com.scheduler.scheduler.LV3.entity.User;
 import com.scheduler.scheduler.LV3.repository.ScheduleRepository;
+import com.scheduler.scheduler.LV3.repository.UserRepository;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,15 +20,38 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
 
+    private final UserRepository userRepository;
+
     @Override
     @Transactional
     public ScheduleResponseDto createSchedule(ScheduleRequestDto scheduleRequestDto) {
 
         LocalDate now = LocalDate.now();
 
+        Optional<User> userOptional = userRepository.findByEmail(scheduleRequestDto.getEmail());
+
+        User user;
+
+        if (userOptional.isEmpty()) {
+            user = User.builder()
+                    .name(scheduleRequestDto.getAuthor())
+                    .email(scheduleRequestDto.getEmail())
+                    .createdAt(now)
+                    .updatedAt(now)
+                    .build();
+
+            user = userRepository.save(user);
+        } else {
+            user = userOptional.get();
+
+            if (!user.getName().equals(scheduleRequestDto.getAuthor())) {
+                throw new IllegalArgumentException("작성자와 이메일이 일치하지 않습니다.");
+            }
+        }
+
         Schedule schedule = Schedule.builder()
                 .todo(scheduleRequestDto.getTodo())
-                .author(scheduleRequestDto.getAuthor())
+                .userId(user.getId())
                 .password(scheduleRequestDto.getPassword())
                 .createdAt(now)
                 .updatedAt(now)
@@ -33,7 +59,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         Schedule savedSchedule = scheduleRepository.save(schedule);
 
-        return ScheduleResponseDto.from(savedSchedule);
+        return ScheduleResponseDto.from(savedSchedule, user);
     }
 
     @Override
@@ -42,16 +68,25 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         Schedule schedule = scheduleRepository.findById(scheduleId);
 
-        return ScheduleResponseDto.from(schedule);
+        Optional<User> userOptional = userRepository.findById(schedule.getUserId());
+
+        User user = userOptional.orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+
+        return ScheduleResponseDto.from(schedule, user);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<ScheduleResponseDto> getSchedulesByAuthorAndUpdatedAt(String author, LocalDate updatedAt) {
+    public List<ScheduleResponseDto> getSchedulesByUser(Long userId, LocalDate updatedAt) {
 
-        return scheduleRepository.findSchedulesByAuthorAndUpdatedAt(author, updatedAt)
-                .stream()
-                .map(ScheduleResponseDto::from)
+        List<Schedule> schedules = scheduleRepository.findSchedulesByUserId(userId, updatedAt);
+
+        return schedules.stream()
+                .map(schedule -> {
+                    Optional<User> userOptional = userRepository.findById(schedule.getUserId());
+                    User user = userOptional.orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+                    return ScheduleResponseDto.from(schedule, user);
+                })
                 .collect(Collectors.toList());
 
     }
@@ -68,14 +103,20 @@ public class ScheduleServiceImpl implements ScheduleService {
         Schedule updatedSchedule = Schedule.builder()
                 .scheduleId(scheduleId)
                 .todo(scheduleRequestDto.getTodo())
-                .author(scheduleRequestDto.getAuthor())
+                .userId(schedule.getUserId())
                 .password(scheduleRequestDto.getPassword())
                 .createdAt(schedule.getCreatedAt())
                 .updatedAt(LocalDate.now())
                 .build();
 
         Schedule savedSchedule = scheduleRepository.update(scheduleId, updatedSchedule);
-        return ScheduleResponseDto.from(savedSchedule);
+
+        Optional<User> userOptional = userRepository.findById(schedule.getUserId());
+        User user = userOptional.orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+
+        User savedUser = userRepository.updateName(user.getId(), scheduleRequestDto.getAuthor(), user);
+
+        return ScheduleResponseDto.from(savedSchedule, savedUser);
     }
 
     @Override

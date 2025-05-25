@@ -11,7 +11,7 @@ public interface ScheduleService {
 
     ScheduleResponseDto getScheduleById(Long scheduleId);
 
-    List<ScheduleResponseDto> getSchedulesByAuthorAndUpdatedAt(String author, LocalDate updatedAt);
+    List<ScheduleResponseDto> getSchedulesByUser(Long userId, LocalDate updatedAt);
 
     ScheduleResponseDto updateSchedule(Long scheduleId, ScheduleRequestDto dto);
 

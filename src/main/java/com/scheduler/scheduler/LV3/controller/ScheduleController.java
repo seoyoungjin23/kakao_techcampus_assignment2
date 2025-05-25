@@ -40,11 +40,11 @@ public class ScheduleController {
 
     @GetMapping
     public ResponseEntity<List<ScheduleResponseDto>> getSchedules(
-            @RequestParam(required = false) String author,
+            @RequestParam(required = false) Long userId,
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate updatedAt
     ) {
-        List<ScheduleResponseDto> responseDtoList = scheduleService.getSchedulesByAuthorAndUpdatedAt(author, updatedAt);
+        List<ScheduleResponseDto> responseDtoList = scheduleService.getSchedulesByUser(userId, updatedAt);
         return ResponseEntity.ok(responseDtoList);
     }
 

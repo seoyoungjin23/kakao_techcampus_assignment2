@@ -10,7 +10,7 @@ public interface ScheduleRepository {
 
     Schedule findById(Long id);
 
-    List<Schedule> findSchedulesByAuthorAndUpdatedAt(String author, LocalDate updatedAt);
+    List<Schedule> findSchedulesByUserId(Long userId, LocalDate updatedAt);
 
     Schedule update(Long id, Schedule schedule);
 

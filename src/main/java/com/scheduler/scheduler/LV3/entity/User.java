@@ -8,18 +8,15 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class Schedule {
+public class User {
 
-    private Long scheduleId;
+    private Long Id;
 
-    private Long userId;
+    private String name;
 
-    private String password;
-
-    private String todo;
+    private String email;
 
     private LocalDate createdAt;
 
     private LocalDate updatedAt;
-
 }

@@ -32,7 +32,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
 
         Map<String, Object> data = new HashMap<>();
         data.put("todo", schedule.getTodo());
-        data.put("author", schedule.getAuthor());
+        data.put("user_id", schedule.getUserId());
         data.put("password", schedule.getPassword());
         data.put("created_at", Date.valueOf(schedule.getCreatedAt()));
         data.put("updated_at", Date.valueOf(schedule.getUpdatedAt()));
@@ -42,7 +42,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         return Schedule.builder()
                 .scheduleId(key.longValue())
                 .todo(schedule.getTodo())
-                .author(schedule.getAuthor())
+                .userId(schedule.getUserId())
                 .password(schedule.getPassword())
                 .createdAt(schedule.getCreatedAt())
                 .updatedAt(schedule.getUpdatedAt())
@@ -56,13 +56,13 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
     }
 
     @Override
-    public List<Schedule> findSchedulesByAuthorAndUpdatedAt(String author, LocalDate updatedAt) {
+    public List<Schedule> findSchedulesByUserId(Long userId, LocalDate updatedAt) {
         StringBuilder sql = new StringBuilder("SELECT * FROM schedule WHERE 1=1");
         List<Object> data = new ArrayList<>();
 
-        if (author != null && !author.isEmpty()) {
-            sql.append(" AND author = ?");
-            data.add(author);
+        if (userId != null) {
+            sql.append(" AND user_id = ?");
+            data.add(userId);
         }
 
         if (updatedAt != null) {
@@ -77,11 +77,11 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
 
     @Override
     public Schedule update(Long scheduleId, Schedule schedule) {
-        String sql = "UPDATE schedule SET todo = ?, author = ?, password = ?, updated_at = ? WHERE id = ?";
+        String sql = "UPDATE schedule SET todo = ?, user_id = ?, password = ?, updated_at = ? WHERE id = ?";
 
         jdbcTemplate.update(sql,
                 schedule.getTodo(),
-                schedule.getAuthor(),
+                schedule.getUserId(),
                 schedule.getPassword(),
                 Date.valueOf(schedule.getUpdatedAt()),
                 scheduleId
@@ -90,7 +90,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         return Schedule.builder()
                 .scheduleId(scheduleId)
                 .todo(schedule.getTodo())
-                .author(schedule.getAuthor())
+                .userId(schedule.getUserId())
                 .password(schedule.getPassword())
                 .createdAt(schedule.getCreatedAt())
                 .updatedAt(schedule.getUpdatedAt())
@@ -107,7 +107,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository{
         return Schedule.builder()
                 .scheduleId(rs.getLong("id"))
                 .todo(rs.getString("todo"))
-                .author(rs.getString("author"))
+                .userId(rs.getLong("user_id"))
                 .password(rs.getString("password"))
                 .createdAt(rs.getDate("created_at").toLocalDate())
                 .updatedAt(rs.getDate("updated_at").toLocalDate())
