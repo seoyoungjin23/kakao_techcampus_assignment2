@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS schedule (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    author VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    todo VARCHAR(255) NOT NULL,
+    created_at DATE NOT NULL,
+    updated_at DATE NOT NULL
+);
