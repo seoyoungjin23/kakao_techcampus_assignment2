@@ -175,7 +175,8 @@
 | author | string | ✅ | 수정한 작성자    |
 | email   | string | ✅ | 이메일        |
 | password | string | ✅ | 비밀번호       |
--> 이메일은 수정 불가능하다.
+
+→ 이메일은 수정 불가능하다.
 
 - **JSON**
 
