@@ -1,6 +1,6 @@
-package com.scheduler.scheduler.dto;
+package com.scheduler.scheduler.LV2.dto;
 
-import com.scheduler.scheduler.entity.Schedule;
+import com.scheduler.scheduler.LV2.entity.Schedule;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

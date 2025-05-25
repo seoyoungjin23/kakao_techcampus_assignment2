@@ -1,8 +1,8 @@
-package com.scheduler.scheduler.controller;
+package com.scheduler.scheduler.LV2.controller;
 
-import com.scheduler.scheduler.dto.ScheduleRequestDto;
-import com.scheduler.scheduler.dto.ScheduleResponseDto;
-import com.scheduler.scheduler.service.ScheduleService;
+import com.scheduler.scheduler.LV2.dto.ScheduleRequestDto;
+import com.scheduler.scheduler.LV2.dto.ScheduleResponseDto;
+import com.scheduler.scheduler.LV2.service.ScheduleService;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

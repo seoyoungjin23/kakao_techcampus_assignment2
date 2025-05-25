@@ -1,13 +1,13 @@
-package com.scheduler.scheduler;
+package com.scheduler.scheduler.LV2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SchedulerApplication {
+public class SchedulerApplicationLv2 {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SchedulerApplication.class, args);
+		SpringApplication.run(SchedulerApplicationLv2.class, args);
 	}
 
 }

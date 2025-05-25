@@ -1,6 +1,6 @@
-package com.scheduler.scheduler.repository;
+package com.scheduler.scheduler.LV2.repository;
 
-import com.scheduler.scheduler.entity.Schedule;
+import com.scheduler.scheduler.LV2.entity.Schedule;
 import java.time.LocalDate;
 import java.util.List;
 

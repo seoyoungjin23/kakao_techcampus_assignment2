@@ -1,4 +1,4 @@
-package com.scheduler.scheduler.entity;
+package com.scheduler.scheduler.LV2.entity;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;

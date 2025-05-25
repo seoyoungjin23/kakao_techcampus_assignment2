@@ -1,9 +1,9 @@
-package com.scheduler.scheduler.service;
+package com.scheduler.scheduler.LV2.service;
 
-import com.scheduler.scheduler.dto.ScheduleRequestDto;
-import com.scheduler.scheduler.dto.ScheduleResponseDto;
-import com.scheduler.scheduler.entity.Schedule;
-import com.scheduler.scheduler.repository.ScheduleRepository;
+import com.scheduler.scheduler.LV2.dto.ScheduleRequestDto;
+import com.scheduler.scheduler.LV2.dto.ScheduleResponseDto;
+import com.scheduler.scheduler.LV2.entity.Schedule;
+import com.scheduler.scheduler.LV2.repository.ScheduleRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
